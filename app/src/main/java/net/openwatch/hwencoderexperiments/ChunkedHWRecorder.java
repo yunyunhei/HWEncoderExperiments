@@ -532,7 +532,7 @@ public class ChunkedHWRecorder {
      * Configures encoder and muxer state, and prepares the input Surface.  Initializes
      * mVideoEncoder, mMuxerWrapper, mInputSurface, mVideoBufferInfo, mVideoTrackInfo, and mMuxerStarted.
      */
-    private void prepareEncoder(int width, int height, int bitRate) {
+    private void prepareEncoder(int width, int height, int bitRate) throws IOException {
         eosSentToAudioEncoder = false;
         eosSentToVideoEncoder = false;
         fullStopReceived = false;
@@ -630,7 +630,7 @@ public class ChunkedHWRecorder {
     /**
      * This can be called within drainEncoder, when the end of stream is reached
      */
-    private void chunkVideoEncoder(){
+    private void chunkVideoEncoder() throws IOException {
         stopAndReleaseVideoEncoder();
         // Start Encoder
         mVideoBufferInfo = new MediaCodec.BufferInfo();
@@ -677,7 +677,7 @@ public class ChunkedHWRecorder {
     /**
      * This can be called within drainEncoder, when the end of stream is reached
      */
-    private void chunkAudioEncoder(){
+    private void chunkAudioEncoder() throws IOException {
         stopAndReleaseAudioEncoder();
 
         // Start Encoder
@@ -848,12 +848,20 @@ public class ChunkedHWRecorder {
                             if(encoder == mVideoEncoder){
                                 Log.i(TAG, "Chunking video encoder");
                                 if (TRACE) Trace.beginSection("chunkVideoEncoder");
-                                chunkVideoEncoder();
+                                try {
+                                    chunkVideoEncoder();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                                 if (TRACE) Trace.endSection();
                             }else if(encoder == mAudioEncoder){
                                 Log.i(TAG, "Chunking audio encoder");
                                 if (TRACE) Trace.beginSection("chunkAudioEncoder");
-                                chunkAudioEncoder();
+                                try {
+                                    chunkAudioEncoder();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                                 if (TRACE) Trace.endSection();
                             }else
                                 Log.e(TAG, "Unknown encoder passed to drainEncoder!");

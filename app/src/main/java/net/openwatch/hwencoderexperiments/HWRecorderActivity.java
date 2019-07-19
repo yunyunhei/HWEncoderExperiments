@@ -53,8 +53,8 @@ public class HWRecorderActivity extends Activity {
      */
     public void startChunkedHWRecorder() throws Throwable {
         chunkedHWRecorder = new ChunkedHWRecorder(getApplicationContext());
-        //chunkedHWRecorder.setDisplayEGLContext(context);
-        ChunkedHWRecorderWrapper.runTest(chunkedHWRecorder);
+//        chunkedHWRecorder.setDisplayEGLContext(context);
+//        ChunkedHWRecorderWrapper.runTest(chunkedHWRecorder);
     }
 
 

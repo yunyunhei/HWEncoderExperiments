@@ -1,8 +1,10 @@
 local.properties
 *.iml
 gen
+.idea
 .gradle/
 lint.xml
 .DS_STORE
 .idea/
 *.class
+build
